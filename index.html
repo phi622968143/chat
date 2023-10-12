@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>chat</title>
+</head>
+<body>
+    <div id="chatbox"></div>
+    <input id='input' type="text" placeholder="in">
+</body>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+    var socket=io();
+    var name = prompt('請輸入用戶名：',"your name");
+    var text = '加入聊天室';
+    var time = new Date();
+    time = time.toLocaleTimeString();
+    var r = Math.random() * 255;
+    var g = Math.random() * 255;
+    var b = Math.random() * 255;
+    var color = `rgb(${r}, ${g}, ${b})`;
+    const appendComment = (text, name, time, color) => {
+    var html = `<p style="color: ${color};">【${name} ${time}】 ${text}</p>`;
+    $('#chatbox').append(html); // jquery 在現有子元素之後加入新的子元素
+    var height = $('#chatbox').prop('scrollHeight');
+    $('#chatbox').scrollTop(height);//讓使用者可以看到最新的訊息
+    }
+    socket.emit('myMessage', [text, name, time, color]); 
+    $('#input').keypress((event) => {
+            var text = $('#input').val();
+            var time = new Date();
+            time = time.toLocaleTimeString();
+
+            if (event.keyCode === 13 && text !== '') {
+                // 清空輸入框的值
+                $('#input').val('');
+                socket.emit('myMessage', [text, name, time, color]); // 發送廣播訊息
+            }
+    });
+    socket.on("allMessage",(data)=>{
+        appendComment(data[0],data[1],data[2],data[3]);
+    });
+</script>
+</html>

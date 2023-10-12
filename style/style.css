@@ -1,0 +1,31 @@
+body {
+    padding: 30px;
+    background-color: #8abdff;
+    font-family: Monospace;
+  }
+  
+#chatbox {
+    /* height: 500px; */
+    height: 80svh;
+    padding: 5px;
+    border: 1px solid #000000;
+    overflow-y: scroll;
+  }
+
+  #chatbox > p {
+    margin: 0;
+    color: #000000;
+    font-size: 1rem;
+  }
+  
+  #input {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #bbbbbb;
+    box-sizing: border-box;
+    color: #bbbbbb;
+    background-color: #ffffff;
+    outline: none;
+    font-family: Monospace;
+    font-size: 1rem;
+  }
